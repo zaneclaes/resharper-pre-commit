@@ -1,0 +1,260 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>JetBrains.Profiler.SelfApi</name>
+    </assembly>
+    <members>
+        <member name="T:JetBrains.Profiler.SelfApi.DotMemory">
+             <summary>
+             The API lets you initiate and control profiling sessions right from the code of your application.
+             For example, this can be helpful for profiling the application on end-user desktops or production servers.
+             The API uses the dotMemory.exe command-line profiler (the tool is downloaded automatically)
+             </summary>
+             <remarks>
+             Use case 1: ad-hoc profiling <br/>
+             * install the JetBrains.Profiler.SelfApi package to your project<br/>
+             * to initialize the API, call DotMemory.EnsurePrerequisite()<br/>
+             * to get just one memory snapshot, call DotMemory.GetSnapshotOnce<br/>
+             * or in case you need several snapshots, call Attach/GetSnapshot*/Detach<br/>
+             * deploy your application<br/>
+             * reproduce the issue<br/>
+             * investigate the generated workspace with snapshots using JetBrains dotMemory<br/>
+            <br/>
+             Use case 2: self-profiling as a part of troubleshooting on a production server<br/>
+             * install the JetBrains.Profiler.SelfApi package to your project<br/>
+             * in handler of awesome `Gather trouble report` action call DotMemory.EnsurePrerequisite()<br/>
+             * to get a memory snapshot, call DotMemory.GetSnapshotOnce<br/>
+             * include the generated workspace with snapshots into the report<br/>
+             </remarks>
+        </member>
+        <member name="F:JetBrains.Profiler.SelfApi.DotMemory.NupkgVersion">
+            <summary>
+            The version of JetBrains.dotMemory.Console NuGet-package that must be downloaded.
+            </summary>
+        </member>
+        <member name="T:JetBrains.Profiler.SelfApi.DotMemory.Config">
+            <summary>
+            Self-profiling configuration
+            </summary>
+        </member>
+        <member name="M:JetBrains.Profiler.SelfApi.DotMemory.Config.UseLogLevelTrace">
+            <summary>
+            Sets the TRACE logging level.
+            </summary>
+        </member>
+        <member name="M:JetBrains.Profiler.SelfApi.DotMemory.Config.UseLogLevelVerbose">
+            <summary>
+            Sets the VERBOSE logging level.
+            </summary>
+        </member>
+        <member name="M:JetBrains.Profiler.SelfApi.DotMemory.Config.UseLogFile(System.String)">
+            <summary>
+            Specifies the path to the log file.
+            </summary>
+        </member>
+        <member name="M:JetBrains.Profiler.SelfApi.DotMemory.Config.SaveToFile(System.String,System.Boolean)">
+            <summary>
+            Specifies the path to the workspace file (snapshots storage).
+            </summary>
+        </member>
+        <member name="M:JetBrains.Profiler.SelfApi.DotMemory.Config.SaveToDir(System.String)">
+            <summary>
+            Specifies the path to the workspace directory (filename will be auto-generated).
+            </summary>
+        </member>
+        <member name="M:JetBrains.Profiler.SelfApi.DotMemory.Config.OpenDotMemory">
+            <summary>
+            Specifies whether to open the generated workspace in JetBrains dotMemory.
+            </summary>
+        </member>
+        <member name="M:JetBrains.Profiler.SelfApi.DotMemory.Config.WithCommandLineArgument(System.String)">
+            <summary>
+            Appends an arbitrary argument to the command line as is (without any quoting, and so on).
+            </summary>
+        </member>
+        <member name="M:JetBrains.Profiler.SelfApi.DotMemory.Config.UseApi">
+            <summary>
+            [Advanced use only] Specifies whether to use `JetBrains.Profiler.Api` to control the profiling session.
+            </summary>
+            <remarks>
+            By default, `JetBrains.Profiler.Api` is used to control the session (if the corresponding assembly was successfully loaded).
+            Otherwise, the self-profiling API uses dotMemory.exe service messages to control the session.
+            </remarks>
+        </member>
+        <member name="M:JetBrains.Profiler.SelfApi.DotMemory.Config.DoNotUseApi">
+            <summary>
+            [Advanced use only] Prohibits using `JetBrains.Profiler.Api` to control the profiling session.
+            </summary>
+            <remarks>
+            By default, `JetBrains.Profiler.Api` is used to control the session (if the corresponding assembly was successfully loaded).
+            Otherwise, the self-profiling API uses dotMemory.exe service messages to control the session.
+            </remarks>
+        </member>
+        <member name="M:JetBrains.Profiler.SelfApi.DotMemory.EnsurePrerequisiteAsync(System.Threading.CancellationToken,System.IProgress{System.Double},System.Uri,JetBrains.Profiler.SelfApi.NuGetApi,System.String)">
+            <summary>
+            Makes sure that the dotMemory.exe command-line profiler is downloaded and is ready to use.
+            </summary>
+            <remarks>
+            1. Looks for `dotMemory.exe` in the same folder with the running assembly. Uses it if it's found.<br/>
+            2. Downloads `JetBrains.dotMemory.Console` NuGet package into the <paramref name="downloadTo"/>
+            folder and uses the dotMemory.exe command-line profiler from this package. The package version is defined by <see cref="F:JetBrains.Profiler.SelfApi.DotMemory.NupkgVersion"/>.
+            The command-line profiler is saved to `{downloadTo}/dotMemory.{NupkgVersion}/dotMemory.exe`
+            If the file exists, a new one is not downloaded.
+            </remarks>
+            <param name="cancellationToken">Cancellation token</param>
+            <param name="progress">Download progress callback from 0.0 to 100.0. If null, progress is not reported.</param>
+            <param name="nugetUrl">URL of NuGet mirror. If null, www.nuget.org is used.</param>
+            <param name="nugetApi">NuGet API version.</param>
+            <param name="downloadTo">NuGet download destination folder. If null, %LocalAppData% is used.</param>
+        </member>
+        <member name="M:JetBrains.Profiler.SelfApi.DotMemory.EnsurePrerequisiteAsync(System.IProgress{System.Double},System.Uri,JetBrains.Profiler.SelfApi.NuGetApi,System.String)">
+            <summary>
+            The shortcut for <c>EnsurePrerequisiteAsync(CancellationToken.None, progress, nugetUrl, prerequisitePath)</c>
+            </summary>
+        </member>
+        <member name="M:JetBrains.Profiler.SelfApi.DotMemory.EnsurePrerequisite(System.Uri,JetBrains.Profiler.SelfApi.NuGetApi,System.String)">
+            <summary>
+            The shortcut for <c>EnsurePrerequisiteAsync(CancellationToken.None, progress: null, nugetUrl, prerequisitePath).Wait()</c>
+            </summary>
+        </member>
+        <member name="M:JetBrains.Profiler.SelfApi.DotMemory.GetSnapshotOnce">
+            <summary>
+            The shortcut for <see cref="M:JetBrains.Profiler.SelfApi.DotMemory.Attach"/>; <see cref="M:JetBrains.Profiler.SelfApi.DotMemory.GetSnapshot(System.String)"/>; <see cref="M:JetBrains.Profiler.SelfApi.DotMemory.Detach"/>;
+            </summary>
+            <returns>Saved workspace file path.</returns>
+        </member>
+        <member name="M:JetBrains.Profiler.SelfApi.DotMemory.GetSnapshotOnce(JetBrains.Profiler.SelfApi.DotMemory.Config)">
+            <summary>
+            The shortcut for <see cref="M:JetBrains.Profiler.SelfApi.DotMemory.Attach(JetBrains.Profiler.SelfApi.DotMemory.Config)"/>; <see cref="M:JetBrains.Profiler.SelfApi.DotMemory.GetSnapshot(System.String)"/>; <see cref="M:JetBrains.Profiler.SelfApi.DotMemory.Detach"/>;
+            </summary>
+            <returns>Saved workspace file path.</returns>
+        </member>
+        <member name="M:JetBrains.Profiler.SelfApi.DotMemory.Attach">
+            <summary>
+            Attaches dotMemory to the current process using the default API configuration.
+            </summary>
+        </member>
+        <member name="M:JetBrains.Profiler.SelfApi.DotMemory.Attach(JetBrains.Profiler.SelfApi.DotMemory.Config)">
+            <summary>
+            Attaches dotMemory to the current process using the specified API configuration.
+            </summary>
+        </member>
+        <member name="M:JetBrains.Profiler.SelfApi.DotMemory.Detach">
+            <summary>
+            Detaches dotMemory from the current process.
+            </summary>
+            <returns>Saved workspace file path.</returns>
+        </member>
+        <member name="M:JetBrains.Profiler.SelfApi.DotMemory.GetSnapshot(System.String)">
+            <summary>
+            Gets a memory snapshot of the current process.
+            </summary>
+            <param name="name">Optional snapshot name.</param>
+        </member>
+        <member name="T:JetBrains.Profiler.SelfApi.Impl.NuGet">
+            <summary>
+            The minimal stuff to support NuGet package downloading for API v2/v3
+            </summary>
+        </member>
+        <member name="T:JetBrains.Profiler.SelfApi.Impl.NuGet.SemanticVersion">
+            <summary>
+            Simplified support for semantic version.
+            </summary>
+        </member>
+        <member name="T:JetBrains.Profiler.SelfApi.NuGetApi">
+            <summary>
+            NuGet API version
+            </summary>
+        </member>
+        <member name="F:JetBrains.Profiler.SelfApi.NuGetApi.V2">
+            <summary>
+            NuGet API v2
+            </summary>
+        </member>
+        <member name="F:JetBrains.Profiler.SelfApi.NuGetApi.V3">
+            <summary>
+            NuGet API v3
+            </summary>
+        </member>
+        <member name="T:JetBrains.Profiler.SelfApi.Trace">
+            <summary>
+            The entry point for all logging related to self-profiling.
+            </summary>
+        </member>
+        <member name="F:JetBrains.Profiler.SelfApi.Trace.Source">
+            <summary>
+            The current instance of <see cref="T:System.Diagnostics.TraceSource"/> used for all logging inside self-profiling API.
+            </summary>
+            <remarks>
+            You can control trace output via App.config or via programatically added listeners, see examples below.
+            <example>
+            Redirect to console using App.config:
+            <code>
+            &lt;system.diagnostics&gt;
+              &lt;sources&gt;
+                &lt;source name="JetBrains.Profiler.SelfApi"
+                           switchName="SourceSwitch"
+                           switchType="System.Diagnostics.SourceSwitch" &gt;
+                    &lt;listeners&gt;
+                        &lt;add name="Console" /&gt;
+                    &lt;/listeners&gt;
+                &lt;/source&gt;
+              &lt;/sources&gt;
+              &lt;switches&gt;
+                &lt;add name="SourceSwitch" value="Verbose" /&gt;
+              &lt;/switches&gt;
+              &lt;sharedListeners&gt;
+                &lt;add name="Console"
+                     type="System.Diagnostics.ConsoleTraceListener"
+                     initializeData="false"/&gt;
+              &lt;/sharedListeners&gt;
+              &lt;trace autoflush="true" indentsize="4"&gt;
+                &lt;listeners&gt;
+                    &lt;add name="Console" /&gt;
+                &lt;/listeners&gt;
+              &lt;/trace&gt;
+            &lt;/system.diagnostics&gt;
+            </code>
+            </example>
+            <example>
+            <br/>
+            Redirect to console using programatically added listener:
+            <code>
+            Trace.Source.Switch = new SourceSwitch("SourceSwitch", "Verbose");
+            Trace.Source.Listeners.Add(new ConsoleTraceListener());
+            </code>
+            </example>
+            </remarks>
+        </member>
+        <member name="M:JetBrains.Profiler.SelfApi.Trace.Verbose(System.String)">
+            <summary>
+            Writes message with VERBOSE level.
+            </summary>
+        </member>
+        <member name="M:JetBrains.Profiler.SelfApi.Trace.Verbose(System.String,System.Object[])">
+            <summary>
+            Writes message with VERBOSE level.
+            </summary>
+        </member>
+        <member name="M:JetBrains.Profiler.SelfApi.Trace.Info(System.String)">
+            <summary>
+            Writes message with INFO level.
+            </summary>
+        </member>
+        <member name="M:JetBrains.Profiler.SelfApi.Trace.Info(System.String,System.Object[])">
+            <summary>
+            Writes message with INFO level.
+            </summary>
+        </member>
+        <member name="M:JetBrains.Profiler.SelfApi.Trace.Error(System.String)">
+            <summary>
+            Writes message with ERROR level.
+            </summary>
+        </member>
+        <member name="M:JetBrains.Profiler.SelfApi.Trace.Error(System.String,System.Exception)">
+            <summary>
+            Writes message with ERROR level.
+            </summary>
+        </member>
+    </members>
+</doc>

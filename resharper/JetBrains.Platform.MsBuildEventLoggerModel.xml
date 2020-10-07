@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>JetBrains.Platform.MsBuildEventLoggerModel</name>
+    </assembly>
+    <members>
+        <member name="T:JetBrains.Platform.MsBuildEventLoggerModel.Models.MsBuildExeLoggerModel">
+            <summary>
+            <p>Generated from: MsBuildExeLoggerModel.kt:10</p>
+            </summary>
+        </member>
+        <member name="T:JetBrains.Platform.MsBuildEventLoggerModel.Models.MsBuildExeBuildEvent">
+            <summary>
+            <p>Generated from: MsBuildExeLoggerModel.kt:22</p>
+            </summary>
+        </member>
+        <member name="T:JetBrains.Platform.MsBuildEventLoggerModel.Models.MsBuildExeBuildModelInitialized">
+            <summary>
+            <p>Generated from: MsBuildExeLoggerModel.kt:65</p>
+            </summary>
+        </member>
+        <member name="T:JetBrains.Platform.MsBuildEventLoggerModel.Models.MsBuildExeBuildModelWithParameters">
+            <summary>
+            <p>Generated from: MsBuildExeLoggerModel.kt:37</p>
+            </summary>
+        </member>
+        <member name="T:JetBrains.Platform.MsBuildEventLoggerModel.Models.MsBuildExeBuildResult">
+            <summary>
+            <p>Generated from: MsBuildExeLoggerModel.kt:32</p>
+            </summary>
+        </member>
+        <member name="T:JetBrains.Platform.MsBuildEventLoggerModel.Models.MsBuildExeEventKind">
+            <summary>
+            <p>Generated from: MsBuildExeLoggerModel.kt:15</p>
+            </summary>
+        </member>
+        <member name="T:JetBrains.Platform.MsBuildEventLoggerModel.Models.MsBuildExeLogEntry">
+            <summary>
+            <p>Generated from: MsBuildExeLoggerModel.kt:60</p>
+            </summary>
+        </member>
+        <member name="T:JetBrains.Platform.MsBuildEventLoggerModel.Models.MsBuildExeLogEntryType">
+            <summary>
+            <p>Generated from: MsBuildExeLoggerModel.kt:52</p>
+            </summary>
+        </member>
+    </members>
+</doc>

@@ -1,0 +1,4 @@
+- id: resharper
+  name: resharper
+  entry: ./pre-commit.sh
+  language: script
